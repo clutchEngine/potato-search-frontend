@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <meta charset="utf-8" />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
+    <div id="header">
+      <div class="links-top">
+        <a href="" id="toplink-web1">WEB (QUERY 1)</a>
+        <a href="" id="toplink-web2">WEB (QUERY 2)</a>
+      </div>
+    </div>
+    <potato title="Potato" id="potato"></potato>
+    <div class="logo-and-form">
+      <h1 class="logo big">potato</h1>
+      <form action="/redirector.html" method="get">
+        <input
+          name="q"
+          placeholder=""
+          id="weather-desc"
+        /><button type="submit" id="serp-btn">search</button>
+      </form>
+      
+      </div>
+    </div>
+    <div class="result-columns">
+      <div class="result-column" id="results">
+
+      </div>
+      <div class="result-column" id="res2">
+
+      </div>
+    </div>
+    <footer><small><b>End</b></small></footer>
+    <div class="floor"></div>
+    <style>
+      /*extra serp stuff not sound in the main style.css*/
+      
+      #header a {
+        font-size: 11px;
+        color: lightgrey;
+        text-decoration: none;
+      }
+
+      .logo-and-form {
+        margin-top: 10px;
+        width: 98vw;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-and-form h1 {
+        margin: 0;
+        flex: 0 0 auto;
+      }
+
+      .logo-and-form form {
+        display: flex;
+        width: 87%;
+        margin-left: 20px;
+      }
+
+      .logo-and-form form input {
+        width: 87%;
+      }
+
+      .logo-and-form form button {
+        width: 10%;
+      }
+
+      body {overflow-x: hidden; overflow-y:visible;}
+
+      .result {
+        background: none;
+        padding: 13px;
+        width: 90%;
+        margin: 3px;
+        border-radius: 3px;
+        color: #ffffff;
+        margin: auto;
+        border-bottom: 1px solid grey;
+      }
+
+      .result h3 {
+        color: darkgrey;
+        padding: 0;
+        margin: 0;
+        
+      }
+
+      .result p {
+        padding: 0;
+        margin: 0;
+        font-style: normal;
+      }
+
+      .result a {
+        text-decoration: none;
+      }
+
+      .result small strong {
+        color: deeppink;
+      }
+
+      .result p{
+        color: #fff;
+      }
+      
+      .result-columns {
+        display: flex;
+        flex-direction: row; /* 'skid' row to prevent the youth going wild*/
+        width: 98vw;
+
+      }
+
+      #results, #res2 {
+        width: 48%;
+      }
+
+      body {
+        overflow-y: visible;
+      }
+      
+    </style>
+    <script>
+      function echo(elementId, string) {
+        document.getElementById(elementId).innerText = string;
+      }
+
+
+
+      const $_GET = (sget) => new URLSearchParams(window.location.search).get(sget);
+      async function include(elementId, file) {
+      const response = await fetch(file);
+      if (!response.ok) {
+          throw new Error("Could not get file");
+        }
+        document.getElementById(elementId).innerHTML = await response.text();
+      }
+
+      async function peelPotato() {
+        const [one, two] = $_GET("q").split("/");
+      
+      const potato = await fetch("/search-api?q="+one);
+      const peeledPotato = await potato.json();
+      console.log("Peeled potato: " + peeledPotato)
+
+      const potato2 = await fetch("/search-api?q="+two);
+      const peeledPotato2 = await potato2.json();
+      console.log("Peeled potato 2: " + peeledPotato2)
+      peeledPotato["results"].forEach((slice, index)=>{
+        filter = ["anal","analsex","blowjob","blowjobs","boob","boobs","clitoris","cock","cocks","cum","dick","dicks","gangbang","gangbangs","gangbanging","oral","oralsex","porn","porno","pussy","pussies","sex","sexy","tit","tits","xxx","xxxx","xxxx"];
+        const potatoRegex = new RegExp(filter.join("|"), "i");
+        const potatoContainsFilterWord = potatoRegex.test(slice["title"]);
+        if (!potatoContainsFilterWord) {
+        console.log(slice["title"]);
+        console.log(slice["url"]);
+        console.log(slice["snippet"]);
+        potatoId = slice["title"].split(' ');
+        fullPotatoId = "RESULT-" + "potatoId-INDEX-" + index;
+        potatoTitle = fullPotatoId + "-TITLE";
+        potatoUrl = fullPotatoId + "-URL";
+        potatoSnippet = fullPotatoId + "-SNIPPET";
+        document.getElementById("results").innerHTML += `
+          <div class="result" id="${fullPotatoId}">
+            <a href="${slice["url"]}"><h3 id="${potatoTitle}"></h3></a>
+              <small><strong id="${potatoUrl}"></strong></small>
+            <p id="${potatoSnippet}"></p>
+          </div>
+        `
+        document.getElementById(potatoTitle).innerText = slice["title"];
+        document.getElementById(potatoUrl).innerText = slice["url"];
+        document.getElementById(potatoSnippet).innerText = slice["snippet"];
+      }
+      });
+
+      peeledPotato2["results"].forEach((slice, index)=>{
+        filter = ["anal","analsex","blowjob","blowjobs","boob","boobs","clitoris","cock","cocks","cum","dick","dicks","gangbang","gangbangs","gangbanging","oral","oralsex","porn","porno","pussy","pussies","sex","sexy","tit","tits","xxx","xxxx","xxxx"];
+        const potatoRegex = new RegExp(filter.join("|"), "i");
+        const potatoContainsFilterWord = potatoRegex.test(slice["title"]);
+        if (!potatoContainsFilterWord) {
+        console.log(slice["title"]);
+        console.log(slice["url"]);
+        console.log(slice["snippet"]);
+        potatoId = slice["title"].split(' ');
+        fullPotatoId = "RESULT2-" + "potatoId-INDEX-" + index;
+        potatoTitle = fullPotatoId + "-TITLE";
+        potatoUrl = fullPotatoId + "-URL";
+        potatoSnippet = fullPotatoId + "-SNIPPET";
+        document.getElementById("res2").innerHTML += `
+          <div class="result" id="${fullPotatoId}">
+            <a href="${slice["url"]}"><h3 id="${potatoTitle}"></h3></a>
+              <small><strong id="${potatoUrl}"></strong></small>
+            <p id="${potatoSnippet}"></p>
+          </div>
+        `
+        document.getElementById(potatoTitle).innerText = slice["title"];
+        document.getElementById(potatoUrl).innerText = slice["url"];
+        document.getElementById(potatoSnippet).innerText = slice["snippet"];
+      }
+      })
+
+    document.getElementById("toplink-web1").href = "/search.html?q=" + one;
+    document.getElementById("toplink-web2").href = "/search.html?q=" + two;
+    }
+    peelPotato();
+
+    
+    </script>
+  </body>
+</html>
