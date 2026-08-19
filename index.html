@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png')}}" />
+    <div id="header">
+      <a href="https://openweathermap.org/" id="weather-summary"
+        >Set up a weather key</a
+      ><a href="" id="weather-temp">19&deg;C</a>
+    </div>
+    <potato title="SearchFart" id="potato"></potato>
+    <div class="logo-and-form">
+      <h1 class="logo big">searchfart</h1>
+      <form action="/redirector.html" method="get">
+        <input
+          name="q"
+          placeholder="The worst search engine since Cuil!"
+          id="weather-desc"
+          autocomplete="off"
+        /><button type="submit" id="serp-btn">search</button>
+      </form>
+      <div class="links">
+        dev:
+        <a
+          onclick="document.getElementById('serp-btn').classList.toggle('DEV-pressed')"
+          >toggle btn press</a
+        >
+        -
+        <a
+          onclick="document.getElementById('serp-btn').classList.toggle('DEV-hover')"
+          >toggle btn hover</a
+        >
+        - <a href="plus/webmaster">webmaster</a> - <a href="plus/api">api</a>
+        <hr />
+        site: <a href="blog">blog</a> - <a href="contact">contact</a>
+        <hr />
+        <span id="weather-all">
+          weather:
+          <input id="weather-apikey" placeholder="your api key" /><input
+            id="weather-location"
+            placeholder="your location" /><button
+            onclick="wf()"
+            id="getWeatherBtn"
+          >
+            get weather
+          </button>
+          <hr
+        /></span>
+        <small><small> &copy; searchfart. all rights reserved</small></small>
+      </div>
+    </div>
+    <div class="floor"></div>
+    <style>
+      body {
+        background: linear-gradient(to bottom, grey, black);
+        color: white;
+        font-family: sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: none;
+        -moz-osx-font-smoothing: grayscale;
+        min-height: 100vh;
+        background-repeat: no-repeat;
+        perspective: 800px;
+        overflow: hidden;
+      }
+
+      .logo {
+        padding: 0;
+        margin: 0;
+        letter-spacing: -2px;
+        background: linear-gradient(
+          to bottom,
+          #111,
+          white 0%,
+          #242424 40%,
+          #111 43%,
+          #494949,
+          black 100%
+        );
+        color: transparent;
+        background-clip: text;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2),
+          -30px -30px 0px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo.big {
+        font-size: 40px;
+      }
+
+      .logo-and-form {
+        margin: auto;
+        margin-top: 140px;
+        width: 40vw;
+      }
+
+      .logo-and-form .form-container {
+        display: flex;
+        flex-direction: column;
+        background: linear-gradient(to bottom, lightgrey, darkgrey);
+      }
+
+      .logo-and-form form {
+        width: 100%;
+
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .logo-and-form form input {
+        width: 80%;
+        outline: none;
+        padding: 7px;
+      }
+
+      .logo-and-form form button {
+        width: 18%;
+        background: linear-gradient(
+            to bottom,
+            #111,
+            white 0%,
+            #242424 40%,
+            #111 43%,
+            #494949,
+            black 100%
+          ),
+          linear-gradient(#333, black, black);
+        color: white;
+        padding: 7px;
+        border: none;
+        border-radius: 3px;
+        box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4);
+        transition: 0.1s all ease-in-out;
+      }
+
+      .logo-and-form form button:hover,
+      .logo-and-form form button.DEV-hover {
+        box-shadow: 1px 1px 0px white;
+      }
+
+      .logo-and-form form button:active,
+      .logo-and-form form button.DEV-pressed {
+        box-shadow: 1px 1px 0px deeppink;
+      }
+
+      a {
+        text-decoration: underline;
+        user-select: none;
+        color: white;
+      }
+
+      a:hover {
+        cursor: pointer;
+      }
+
+      .floor {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 200px;
+
+        background: repeating-linear-gradient(
+            to right,
+            deeppink 0 1px,
+            transparent 1px 40px
+          ),
+          repeating-linear-gradient(
+            to top,
+            deeppink 0 1px,
+            transparent 1px 40px
+          );
+
+        opacity: 0.18;
+        transform: rotateX(90deg) translateZ(100px);
+      }
+
+      #header {
+        width: 100vw;
+        display: flex;
+        justify-content: space-between;
+        padding: 3px;
+        background: linear-gradient(
+          to bottom,
+          grey 0%,
+          #111 10%,
+          #111 80%,
+          black 90%,
+          grey 100%
+        );
+        box-sizing: border-box;
+      }
+
+      #weather-apikey,
+      #weather-location {
+        width: 100px;
+      }
+    </style>
+    <script src="s.js"></script>
+    <script src="weather2.js"></script><!--will have to use the url_for here-->
+  </body>
+</html>
