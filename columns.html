@@ -149,7 +149,7 @@
       const peeledPotato2 = await potato2.json();
       console.log("Peeled potato 2: " + peeledPotato2)
       peeledPotato["results"].forEach((slice, index)=>{
-        filter = ["anal","analsex","blowjob","blowjobs","boob","boobs","clitoris","cock","cocks","cum","dick","dicks","gangbang","gangbangs","gangbanging","oral","oralsex","porn","porno","pussy","pussies","sex","sexy","tit","tits","xxx","xxxx","xxxx"];
+        filter = []; // there's an actual filter in the original
         const potatoRegex = new RegExp(filter.join("|"), "i");
         const potatoContainsFilterWord = potatoRegex.test(slice["title"]);
         if (!potatoContainsFilterWord) {
