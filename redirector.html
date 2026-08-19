@@ -1,0 +1,42 @@
+<h1>Redirector</h1>
+<h3 id="random-quote"></h3>
+<p>Here by mistake? <form action="search.html" method="get"><input name="q" placeholder="Search" /><button type="submit">Go</button></form></p>
+<script>
+  function echo(elementId, string) {
+    document.getElementById(elementId).innerText = string;
+  }
+
+  const $_GET = (sget) => new URLSearchParams(window.location.search).get(sget);
+  async function include(elementId, file) {
+    const response = await fetch(file);
+    if (!response.ok) {
+      throw new Error("Could not get file");
+    }
+    document.getElementById(elementId).innerHTML = await response.text();
+  }
+
+  if ($_GET("q")) {
+    if ($_GET("q").includes("/")) {
+      window.location.href = "/columns.html?q=" + $_GET("q");
+    } else if ($_GET("q").includes("@images")) {
+      query = $_GET("q").replace("@images", "");
+      window.location.href = "/images.html?q=" + query;
+    }
+    else if ($_GET("q").includes("@forums")) {
+      query = $_GET("q").replace("@forums", "");
+      window.location.href = "/forums.html?q=" + query;
+    }
+    else if ($_GET("q").includes("@blogs")) {
+      query = $_GET("q").replace("@blogs", "");
+      window.location.href = "/blogs.html?q=" + query;
+    }
+    
+    else {
+      window.location.href = "/search.html?q=" + $_GET("q");
+    }
+  } else {
+    const allQuotes = ["Bazinga!", "Boom-shakalaka!", "what?",]; // should add more quotes
+    const randomQuote = allQuotes[Math.floor(Math.random() * allQuotes.length)];
+    echo("random-quote", randomQuote);
+  }
+</script>
