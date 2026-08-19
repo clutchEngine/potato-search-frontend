@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <meta charset="utf-8" />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png')}}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}" />
+    <div id="header">
+      <div class="links-top">
+        <a href="" id="toplink-web">WEB</a>
+        <a href="" id="toplink-images">IMAGES</a>
+        <a href="" id="toplink-forums">FORUMS</a> <a href="" id="toplink-blogs">BLOGS</a>
+      </div>
+    </div>
+    <potato title="SearchFart" id="potato"></potato>
+    <div class="logo-and-form">
+      <h1 class="logo big">searchfart</h1>
+      <form action="/redirector.html" method="get">
+        <input
+          name="q"
+          placeholder="search"
+          id="weather-desc"
+        /><button type="submit" id="serp-btn">search</button>
+      </form>
+      
+      </div>
+    </div>
+    <div class="result-columns">
+      <div class="result-column" id="results">
+
+      </div>
+      <div class="result-column" id="res2">
+
+      </div>
+    </div>
+    <div class="floor"></div>
+    <style>
+      /*extra serp stuff not sound in the main style.css*/
+      
+      #header a {
+        font-size: 11px;
+        color: lightgrey;
+        text-decoration: none;
+      }
+
+      .logo-and-form {
+        margin-top: 10px;
+        width: 98vw;
+        display: flex;
+        align-items: center;
+      }
+
+      .logo-and-form h1 {
+        margin: 0;
+        flex: 0 0 auto;
+      }
+
+      .logo-and-form form {
+        display: flex;
+        width: 87%;
+        margin-left: 20px;
+      }
+
+      .logo-and-form form input {
+        width: 87%;
+      }
+
+      .logo-and-form form button {
+        width: 10%;
+      }
+
+      body {overflow-x: hidden; overflow-y:visible;}
+
+      .result {
+        background: none;
+        padding: 13px;
+        width: 97vw;
+        margin: 3px;
+        border-radius: 3px;
+        color: #ffffff;
+        margin: auto;
+        border-bottom: 1px solid white;
+      }
+
+      .result h3 {
+        color: darkgrey;
+        padding: 0;
+        margin: 0;
+        
+      }
+
+      .result p {
+        padding: 0;
+        margin: 0;
+        font-style: normal;
+      }
+
+      .result a {
+        text-decoration: none;
+      }
+
+      .result small strong {
+        color: deeppink;
+      }
+
+      .result p{
+        color: #fff;
+      }
+      
+    </style>
+    <script>
+      function echo(elementId, string) {
+        document.getElementById(elementId).innerText = string;
+      }
+
+
+
+      const $_GET = (sget) => new URLSearchParams(window.location.search).get(sget);
+      async function include(elementId, file) {
+      const response = await fetch(file);
+      if (!response.ok) {
+          throw new Error("Could not get file");
+        }
+        document.getElementById(elementId).innerHTML = await response.text();
+      }
+      document.getElementById("toplink-web").href = "/search.html?q=" + $_GET("q");
+        document.getElementById("toplink-images").href = "/images.html?q=" + $_GET("q");
+        document.getElementById("toplink-forums").href = "/forums.html?q=" + $_GET("q");
+        document.getElementById("toplink-blogs").href = "/blogs.html?q=" + $_GET("q");
+        document.getElementById("weather-desc").innerText = $_GET("q");
+
+      async function peelPotato() {
+      
+      const potato = await fetch("/search-api?q="+$_GET("q"));
+      const peeledPotato = await potato.json();
+      console.log("Peeled potato: " + peeledPotato)
+      // console.log(peeledPotato) stop showing results in console
+      // console.log(peeledPotato["results"])
+      // console.log(peeledPotato["results"].length)
+      peeledPotato["results"].forEach((slice, index)=>{
+        const filter = []; // This has a long list of filter words in the actual file
+        const potatoRegex = new RegExp(filter.join("|"), "i");
+        const potatoContainsFilterWord = potatoRegex.test(slice["title"]);
+        const filter2 = ["blog", "blogs", "community", "wordpress", "medium", "Frutiger Aero Archive Blog", "blogger"];
+        const potatoRegex2 = new RegExp(filter2.join("|"), "i");
+        const potatoContainsFilterWord2 = potatoRegex2.test(slice["title"]);
+        if (!potatoContainsFilterWord && potatoContainsFilterWord2) {
+        console.log(slice["title"]);
+        console.log(slice["url"]);
+        console.log(slice["snippet"]);
+        potatoId = slice["title"].split(' ');
+        fullPotatoId = "RESULT-" + "potatoId-INDEX-" + index;
+        potatoTitle = fullPotatoId + "-TITLE";
+        potatoUrl = fullPotatoId + "-URL";
+        potatoSnippet = fullPotatoId + "-SNIPPET";
+        document.getElementById("results").innerHTML += `
+          <div class="result" id="${fullPotatoId}">
+            <a href="${slice["url"]}"><h3 id="${potatoTitle}"></h3></a>
+              <small><strong id="${potatoUrl}"></strong></small>
+            <p id="${potatoSnippet}"></p>
+          </div>
+        `
+        document.getElementById(potatoTitle).innerText = slice["title"];
+        document.getElementById(potatoUrl).innerText = slice["url"];
+        document.getElementById(potatoSnippet).innerText = slice["snippet"];
+        
+      }
+      })
+    }
+    peelPotato();
+    </script>
+  </body>
+</html>
