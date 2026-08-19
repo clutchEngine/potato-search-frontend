@@ -137,7 +137,7 @@
       // console.log(peeledPotato["results"])
       // console.log(peeledPotato["results"].length)
       peeledPotato["results"].forEach((slice, index)=>{
-        const filter = ["anal","analsex","blowjob","blowjobs","boob","boobs","clitoris","cock","cocks","cum","dick","dicks","gangbang","gangbangs","gangbanging","oral","oralsex","porn","porno","pussy","pussies","sex","sexy","tit","tits","xxx","xxxx","xxxx"];
+        const filter = []; // I have an array of filter words in my prototype
         const potatoRegex = new RegExp(filter.join("|"), "i");
         const potatoContainsFilterWord = potatoRegex.test(slice["title"]);
         const filter2 = ["forum", "forums", "community", "phpbb", "melonland", "Frutiger Aero Archive Forums", "bojanSocial"];
